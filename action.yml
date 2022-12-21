@@ -1,0 +1,37 @@
+name: 'Get JIRA tickets out of a GitHub Release'
+description: 'This action will allow you to create a JIRA release by a list of ticketnumbers that are provided'
+branding:
+  icon: 'info'
+  color: 'red'
+inputs:
+  jiraUrl:
+    description: 'The base URL for your JIRA installment'
+    required: true
+    default: ''
+  jiraPAT:
+    description: 'Personal access token with read and write access to the JIRA project you want to access'
+    required: true
+    default: ''
+  jiraProjectKey:
+    description: 'The key of the project you want to use'
+    required: true
+    default: 'PRJ'
+  jiraProjectId:
+    description: 'The ID of the project you want to use'
+    required: true
+    default: '1234'  
+  releaseName:
+    description: 'The name you want to give to the release in jira'
+    required: false
+    default: 'Release'
+  releaseDescription:
+    description: 'The description you want to give to the release in jira'
+    required: false
+    default: 'This release includes a bunch of tickets'
+  jiraTicketIds:
+    description: 'An array of tickets that need to be included in the release f.e. ["PRJ-1", "PRJ-2"]'
+    required: true
+    default: []
+runs:
+  using: 'node16'
+  main: 'index.js'

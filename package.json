@@ -1,0 +1,28 @@
+{
+  "name": "jira-release-from-ticketumbers-action",
+  "version": "1.0.0",
+  "description": "This action will allow you to create a JIRA release by a list of ticketnumbers that are provided",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brapoprod/jira-release-from-ticketumbers-action.git"
+  },
+  "keywords": [
+    "JIRA",
+    "GitHub"
+  ],
+  "author": "brapoprod",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brapoprod/jira-release-from-ticketumbers-action/issues"
+  },
+  "homepage": "https://github.com/brapoprod/jira-release-from-ticketumbers-action#readme",
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1",
+    "axios": "^1.2.1"
+  }
+}
