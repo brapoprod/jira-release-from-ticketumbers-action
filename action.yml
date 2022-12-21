@@ -1,4 +1,4 @@
-name: 'Get JIRA tickets out of a GitHub Release'
+name: 'Create JIRA release with a list of provided tickets'
 description: 'This action will allow you to create a JIRA release by a list of ticketnumbers that are provided'
 branding:
   icon: 'info'
