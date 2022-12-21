@@ -32,6 +32,9 @@ inputs:
     description: 'An array of tickets that need to be included in the release f.e. ["PRJ-1", "PRJ-2"]'
     required: true
     default: '[]'
+  isReleased:
+    description: 'This sets the JIRA released state to the desired state (boolean)'
+    default: true  
 runs:
   using: 'node16'
   main: 'index.js'

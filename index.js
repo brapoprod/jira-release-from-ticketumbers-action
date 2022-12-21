@@ -18,12 +18,21 @@ try {
   // Set the endpoint for creating a version in JIRA
   const CREATE_VERSION_ENDPOINT = `${JIRA_URL}/rest/api/2/version`;
 
+  // Gets the current date in YYYY-MM-DD
+  const date = new Date();
+  const releaseDate = date.toISOString().slice(0, 10);
+
+  // Set the released state in JIRA
+  const isReleased = core.getInput("isReleased") === 'true'
+
   // Set the payload with the release name and description
   const payload = {
     name: RELEASE_NAME,
     description: RELEASE_DESCRIPTION,
     project: PROJECT_KEY,
     projectId: PROJECT_ID,
+    released: isReleased,
+    releaseDate,
   };
 
   // Send a POST request to the endpoint to create the release

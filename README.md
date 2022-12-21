@@ -24,3 +24,6 @@ The description you want to give the release in JIRA
 ### `jiraTicketIds`
 **Required** An array of tickets that need to be included in the release f.e. ["PRJ-1", "PRJ-2"].
 If you want to retrieve this from the PRs in a github release, you can use [this action](https://github.com/brapoprod/get-jira-tickets-from-github-release-action).
+
+### `isReleased`
+This sets the JIRA released state to the desired state (boolean). Default is `true`
