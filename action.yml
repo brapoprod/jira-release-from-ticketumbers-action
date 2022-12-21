@@ -31,7 +31,7 @@ inputs:
   jiraTicketIds:
     description: 'An array of tickets that need to be included in the release f.e. ["PRJ-1", "PRJ-2"]'
     required: true
-    default: []
+    default: '[]'
 runs:
   using: 'node16'
   main: 'index.js'
