@@ -40,7 +40,7 @@ try {
       const newVersionId = response.data.id;
       const CHANGE_ISSUE_ENDPOINT = `${JIRA_URL}/rest/api/2/issue`;
 
-      const ticketIds = core.getInput("jiraTicketIds");
+      const ticketIds = JSON.parse(core.getInput("jiraTicketIds"));
 
       ticketIds.forEach(async (ticketId) => {
         const ticketPayload = {
