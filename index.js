@@ -25,6 +25,8 @@ try {
   // Set the released state in JIRA
   const isReleased = core.getInput("isReleased") === 'true'
 
+  const closeTicketsAfterRelease = core.getInput("closeTicketsAfterRelease") === 'true'
+
   // Set the payload with the release name and description
   const payload = {
     name: RELEASE_NAME,
@@ -55,6 +57,7 @@ try {
         const ticketPayload = {
           update: {
             fixVersions: [{ add: { id: newVersionId } }],
+            state: closeTicketsAfterRelease ? 'closed' : undefined
           },
         };
         const ticketsAdded = await axios.put(

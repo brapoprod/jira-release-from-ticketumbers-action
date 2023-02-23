@@ -34,7 +34,10 @@ inputs:
     default: '[]'
   isReleased:
     description: 'This sets the JIRA released state to the desired state (boolean)'
-    default: true  
+    default: true
+  closeTicketsAfterRelease:
+    description: 'This closes the tickets included in the release (boolean)'
+    default: false    
 runs:
   using: 'node16'
   main: 'index.js'

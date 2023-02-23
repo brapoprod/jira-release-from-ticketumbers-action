@@ -27,3 +27,6 @@ If you want to retrieve this from the PRs in a github release, you can use [this
 
 ### `isReleased`
 This sets the JIRA released state to the desired state (boolean). Default is `true`
+
+### `closeTicketsAfterRelease`
+This closes the tickets included in the release when set to true. Default is `false`
