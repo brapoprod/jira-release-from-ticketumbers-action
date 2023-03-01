@@ -78,9 +78,10 @@ try {
 
         // If tickets need to be closed, close them
         if (closeTicketsAfterRelease) {
-          const transitionId = await axios.get(`${CHANGE_ISSUE_ENDPOINT}/${ticketId}/transitions`, {
+          const transition = await axios.get(`${CHANGE_ISSUE_ENDPOINT}/${ticketId}/transitions`, {
             headers: { Authorization: `Bearer ${JIRA_AUTH_TOKEN}` },
-          }).data.transitions.find(tr => tr.name === "Done").id
+          });
+          const transitionId = transition.data.transitions.find(tr => tr.name === "Done").id
           const closePayload = {
             update: {
               comment: [
