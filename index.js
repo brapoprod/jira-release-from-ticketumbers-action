@@ -54,15 +54,44 @@ try {
       const ticketIds = JSON.parse(core.getInput("jiraTicketIds"));
 
       ticketIds.forEach(async (ticketId) => {
-        const ticketPayload = {
+        const ticketPayloadWithClose = {
           update: {
             fixVersions: [{ add: { id: newVersionId } }],
-            state: closeTicketsAfterRelease ? 'closed' : undefined
+            comment: [
+              {
+                  add: {
+                      body: "Resolved via automated process."
+                  }
+              }
+          ]
           },
+          fields: {
+            resolution: {
+                name: "Done"
+            }
+        }
+        };
+
+        const ticketPayloadNoClose = {
+          update: {
+            fixVersions: [{ add: { id: newVersionId } }],
+            comment: [
+              {
+                  add: {
+                      body: "Resolved via automated process."
+                  }
+              }
+          ]
+          },
+          fields: {
+            resolution: {
+                name: "Done"
+            }
+        }
         };
         const ticketsAdded = await axios.put(
           `${CHANGE_ISSUE_ENDPOINT}/${ticketId}`,
-          ticketPayload,
+          closeTicketsAfterRelease ? ticketPayloadWithClose : ticketPayloadNoClose,
           {
             headers: { Authorization: `Bearer ${JIRA_AUTH_TOKEN}` },
           }
