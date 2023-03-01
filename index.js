@@ -70,6 +70,8 @@ try {
               headers: { Authorization: `Bearer ${JIRA_AUTH_TOKEN}` },
             }
           );
+
+        console.log(ticketsAdded.status);
         } catch (error) {
           console.log(error.message);
         }
@@ -109,7 +111,6 @@ try {
           }
         }
 
-        console.log(ticketsAdded.status);
       });
     })
     .catch((error) => {
