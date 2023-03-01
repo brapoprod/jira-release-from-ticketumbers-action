@@ -92,18 +92,13 @@ try {
                 },
               ],
             },
-            fields: {
-              resolution: {
-                name: "Done",
-              },
-            },
             transition: {
               id: transitionId,
             },
           };
 
           try {
-            const closeTickets = await axios.post(
+            await axios.post(
               `${CHANGE_ISSUE_ENDPOINT}/${ticketId}/transitions`,
               closePayload,
               {
