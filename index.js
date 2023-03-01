@@ -71,33 +71,38 @@ try {
             }
           );
 
-        console.log(ticketsAdded.status);
+          console.log(ticketsAdded.status);
         } catch (error) {
           console.log(error.message);
         }
 
         // If tickets need to be closed, close them
         if (closeTicketsAfterRelease) {
-          const transition = await axios.get(`${CHANGE_ISSUE_ENDPOINT}/${ticketId}/transitions`, {
-            headers: { Authorization: `Bearer ${JIRA_AUTH_TOKEN}` },
-          });
-          const transitionId = transition.data.transitions.find(tr => tr.name === "Done").id
-          const closePayload = {
-            update: {
-              comment: [
-                {
-                  add: {
-                    body: "Resolved via automated process.",
-                  },
-                },
-              ],
-            },
-            transition: {
-              id: transitionId,
-            },
-          };
-
           try {
+            const transition = await axios.get(
+              `${CHANGE_ISSUE_ENDPOINT}/${ticketId}/transitions`,
+              {
+                headers: { Authorization: `Bearer ${JIRA_AUTH_TOKEN}` },
+              }
+            );
+            const transitionId = transition.data.transitions.find(
+              (tr) => tr.name === "Done"
+            ).id;
+            const closePayload = {
+              update: {
+                comment: [
+                  {
+                    add: {
+                      body: "Resolved via automated process.",
+                    },
+                  },
+                ],
+              },
+              transition: {
+                id: transitionId,
+              },
+            };
+
             await axios.post(
               `${CHANGE_ISSUE_ENDPOINT}/${ticketId}/transitions`,
               closePayload,
@@ -109,7 +114,6 @@ try {
             console.log(error.message);
           }
         }
-
       });
     })
     .catch((error) => {
