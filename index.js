@@ -23,9 +23,10 @@ try {
   const releaseDate = date.toISOString().slice(0, 10);
 
   // Set the released state in JIRA
-  const isReleased = core.getInput("isReleased") === 'true'
+  const isReleased = core.getInput("isReleased") === "true";
 
-  const closeTicketsAfterRelease = core.getInput("closeTicketsAfterRelease") === 'true'
+  const closeTicketsAfterRelease =
+    core.getInput("closeTicketsAfterRelease") === "true";
 
   // Set the payload with the release name and description
   const payload = {
@@ -53,49 +54,61 @@ try {
 
       const ticketIds = JSON.parse(core.getInput("jiraTicketIds"));
 
+      // Loop over tickets
       ticketIds.forEach(async (ticketId) => {
-        const ticketPayloadWithClose = {
+        // assign them to new release
+        const ticketPayload = {
           update: {
             fixVersions: [{ add: { id: newVersionId } }],
-            comment: [
-              {
-                  add: {
-                      body: "Resolved via automated process."
-                  }
-              }
-          ]
           },
-          fields: {
-            resolution: {
-                name: "Done"
-            }
-        }
         };
+        try {
+          const ticketsAdded = await axios.put(
+            `${CHANGE_ISSUE_ENDPOINT}/${ticketId}`,
+            ticketPayload,
+            {
+              headers: { Authorization: `Bearer ${JIRA_AUTH_TOKEN}` },
+            }
+          );
+        } catch (error) {
+          console.log(error.message);
+        }
 
-        const ticketPayloadNoClose = {
-          update: {
-            fixVersions: [{ add: { id: newVersionId } }],
-            comment: [
-              {
+        // If tickets need to be closed, close them
+        if (closeTicketsAfterRelease) {
+          const closePayload = {
+            update: {
+              comment: [
+                {
                   add: {
-                      body: "Resolved via automated process."
-                  }
+                    body: "Resolved via automated process.",
+                  },
+                },
+              ],
+            },
+            fields: {
+              resolution: {
+                name: "Done",
+              },
+            },
+            transition: {
+              id: "2",
+            },
+          };
+
+          try {
+            const closeTickets = await axios.post(
+              `${CHANGE_ISSUE_ENDPOINT}/${ticketId}/transitions`,
+              closePayload,
+              {
+                headers: { Authorization: `Bearer ${JIRA_AUTH_TOKEN}` },
               }
-          ]
-          },
-          fields: {
-            resolution: {
-                name: "Done"
-            }
-        }
-        };
-        const ticketsAdded = await axios.put(
-          `${CHANGE_ISSUE_ENDPOINT}/${ticketId}`,
-          closeTicketsAfterRelease ? ticketPayloadWithClose : ticketPayloadNoClose,
-          {
-            headers: { Authorization: `Bearer ${JIRA_AUTH_TOKEN}` },
+            );
+          } catch (error) {
+            console.log(error.message);
           }
-        );
+        }
+
         console.log(ticketsAdded.status);
       });
     })
